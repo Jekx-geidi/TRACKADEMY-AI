@@ -31,7 +31,7 @@ export default function StudentHome() {
 
   return (
     <Screen tabs>
-      <PageHeader eyebrow={`${greeting()}, ${firstName(name)}!`} title={name} subtitle={classLine || 'No class joined yet'} />
+      <PageHeader eyebrow={`${greeting()}, ${firstName(name)}!`} title={name} subtitle={classLine || 'No class joined yet'} avatar />
       <InboxLink />
 
       <HeroCard>

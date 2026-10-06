@@ -33,6 +33,7 @@ export default function ParentHome() {
       <PageHeader
         eyebrow={`${greeting()}, ${firstName(profile?.fullName)}!`}
         title={child ? `${firstName(child.displayName)}'s progress` : 'Your children'}
+        avatar
       />
       <ChildPicker />
 

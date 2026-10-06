@@ -12,6 +12,7 @@ import { IconCircle } from './IconTile';
 import { Notice } from './Screen';
 import { Spinner } from './Spinner';
 import { colors } from './theme';
+import { UserAvatar } from './UserAvatar';
 
 export function greeting(hour = new Date().getHours()): string {
   if (hour < 12) return 'Good Morning';
@@ -22,10 +23,11 @@ export function greeting(hour = new Date().getHours()): string {
 export const firstName = (name: string | null | undefined) => name?.trim().split(/\s+/)[0] || 'there';
 
 /** Logo, small eyebrow and big title at the top of a tab screen. */
-export function PageHeader({ eyebrow, title, subtitle }: { eyebrow?: string; title: string; subtitle?: string }) {
+/** `avatar` shows the signed-in user's photo instead of the app logo (home dashboards). */
+export function PageHeader({ eyebrow, title, subtitle, avatar = false }: { eyebrow?: string; title: string; subtitle?: string; avatar?: boolean }) {
   return (
     <header className="page-header">
-      <img src={logo} alt="Trackademic" />
+      {avatar ? <UserAvatar /> : <img src={logo} alt="Trackademic" />}
       <div>
         {eyebrow ? <p className="eyebrow">{eyebrow}</p> : null}
         <h1>{title}</h1>

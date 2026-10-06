@@ -16,15 +16,7 @@ import { InstallAppCard } from './InstallAppCard';
 import { Notice, Screen } from './Screen';
 import { Spinner } from './Spinner';
 import { TextField } from './TextField';
-
-function initials(name: string): string {
-  return name
-    .split(/\s+/)
-    .map((part) => part[0] ?? '')
-    .join('')
-    .slice(0, 2)
-    .toUpperCase();
-}
+import { initials } from './UserAvatar';
 
 type Editing = 'photo' | 'name' | 'email' | 'password' | null;
 

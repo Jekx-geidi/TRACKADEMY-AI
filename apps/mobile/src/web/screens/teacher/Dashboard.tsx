@@ -101,7 +101,7 @@ export default function TeacherDashboard() {
 
   return (
     <Screen tabs>
-      <PageHeader eyebrow={today()} title={`${greeting()}, ${name}`} subtitle={schoolYear ? `School Year ${schoolYear}` : undefined} />
+      <PageHeader eyebrow={today()} title={`${greeting()}, ${name}`} subtitle={schoolYear ? `School Year ${schoolYear}` : undefined} avatar />
 
       {sent ? (
         <Notice tone="success" title="Reminder sent">
