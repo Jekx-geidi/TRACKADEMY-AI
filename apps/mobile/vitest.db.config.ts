@@ -9,6 +9,7 @@ export default defineConfig({
     environment: 'node',
     // Tests share one database and the seeded demo accounts, so files run one at a time.
     fileParallelism: false,
-    testTimeout: 20000,
+    // Each test signs up fresh accounts, which takes a few seconds on a busy local stack.
+    testTimeout: 30000,
   },
 });

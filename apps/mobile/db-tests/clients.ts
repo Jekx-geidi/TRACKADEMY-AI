@@ -60,6 +60,11 @@ export async function must<T>(request: PromiseLike<{ data: T; error: { message: 
   return data;
 }
 
+/** Like must(), for calls that return a list of rows (RPCs returning a table). */
+export async function rows<T>(request: PromiseLike<{ data: unknown; error: { message: string } | null }>): Promise<T[]> {
+  return (await must(request)) as T[];
+}
+
 /** A teacher with a fresh section and one subject in it. */
 export async function teacherWithSubject(subjectName = 'Mathematics') {
   const teacher = await newAccount('TEACHER', 'Ms. Santos');
