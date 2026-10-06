@@ -1,8 +1,9 @@
 # Plan: PRD v0.3 + v0.5 — Class Workspace, Teacher UX, Verification, Notifications
 
-Sources, both shared in chat on 2026-10-06 and not saved in the repo:
-- "Trackademy PRD v0.3 — Class Workspace"
-- "Trackademy PRD v0.5 — Teacher Navigation, Visual Analytics, Communication, and Simplified UX"
+Sources, shared in chat and not saved in the repo:
+- "Trackademy PRD v0.3 — Class Workspace" (2026-10-06)
+- "Trackademy PRD v0.5 — Teacher Navigation, Visual Analytics, Communication, and Simplified UX" (2026-10-06)
+- "Trackademy PRD v0.7 — Student Experience and UX" (2026-10-07)
 
 Decisions (2026-10-06):
 - **Backend stays Supabase** (Postgres + RLS + SECURITY DEFINER functions + private storage), not the Laravel stack the PRD suggests. Every PRD authorization rule becomes an RLS policy or a function check.
@@ -67,6 +68,28 @@ The teacher app has exactly five tabs: **Dashboard · Sections · Notifications 
 - Teachers can't edit a student's name yet.
 - Theme and Language preferences aren't built.
 - The default school year is a per-device setting only.
+
+## Phase S — PRD v0.7 Student UX (2026-10-07, supersedes v0.3 T10–T11 for students)
+
+The student app has exactly five tabs: **Dashboard · Classes · Upload · Notifications · Profile**.
+- Scores, subjects, records, lacking work and the inbox live inside those five.
+- Student statuses, always as words: Teacher Verified, Awaiting Verification, Needs Resubmission, Missing, Overdue, Excused.
+- A rejected paper counts as Needs Resubmission until a new one is uploaded.
+
+- [x] **S1 Backend.** `20261007000000_student_experience`:
+  - `student_work`: My Work, My Lacking and My Records, with search, filters and paging.
+  - `student_classes`, `student_subjects`, `student_dashboard` and `student_record`.
+  - Names-only `class_classmates`; the teacher can hide them with `set_classmates_visible`.
+  - `leave_class`, `my_guardians` and `new_my_link_code`.
+  - New notifications: ASSESSMENT_CREATED and CLASS_JOINED for the student, STUDENT_LEFT for the teacher.
+  - Students and parents can open the photos of the student's own papers.
+- [ ] **S2 Dashboard and Upload.**
+  - Dashboard: header, the Upload Score call to action, New Scores / Missing / Pending, Needs Attention and Recent Scores.
+  - Upload: Confirm & Submit, a "Submitted" screen, and Upload Now from a missing item.
+- [ ] **S3 Classes.** My Classes and Join; the class workspace (Overview | Subjects | My Work, Class Members by name only); subject detail by category; My Work / My Lacking / My Records; record detail.
+- [ ] **S4 Notifications and Profile.**
+  - Notifications: All | Teacher | Verified | Missing | Class, with filters, paging, mark read and archive.
+  - Profile: student information, My Classes with Leave, guardians and the parent link code.
 
 ## Phase A — Class Workspace (PRD v0.3 P0)
 

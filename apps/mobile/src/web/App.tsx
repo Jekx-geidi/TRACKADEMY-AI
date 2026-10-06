@@ -24,12 +24,15 @@ import SetupParentScreen from './screens/setup/Parent';
 import SetupRoleScreen from './screens/setup/Role';
 import SetupStudentScreen from './screens/setup/Student';
 import SetupTeacherScreen from './screens/setup/Teacher';
+import StudentClassScreen from './screens/student/Class';
+import StudentClassesScreen from './screens/student/Classes';
 import StudentHomeScreen from './screens/student/Home';
-import StudentInboxScreen from './screens/student/Inbox';
+import StudentNotificationsScreen from './screens/student/Notifications';
 import StudentProfileScreen from './screens/student/Profile';
-import StudentRecordsScreen from './screens/student/Records';
-import StudentSubjectsScreen from './screens/student/Subjects';
+import StudentRecordScreen from './screens/student/Record';
+import StudentSubjectScreen from './screens/student/Subject';
 import StudentUploadScreen from './screens/student/Upload';
+import StudentWorkScreen from './screens/student/Work';
 import JoinScreen from './screens/join/Join';
 import { usePendingJoin } from './screens/join/usePendingJoin';
 import TeacherAssessmentScreen from './screens/teacher/Assessment';
@@ -45,11 +48,13 @@ import { useTeacherBadge } from './screens/teacher/useTeacherBadge';
 import { RoleTabBar, type TabSpec } from './ui/RoleTabBar';
 import { Spinner } from './ui/Spinner';
 
+// Exactly five student actions (PRD v0.7 §2, §45): scores, subjects, records, lacking and
+// inbox live inside them.
 const STUDENT_TABS: TabSpec[] = [
-  { path: '', label: 'Home', icon: 'home', iconOutline: 'home-outline' },
-  { path: 'subjects', label: 'Subjects', icon: 'library', iconOutline: 'library-outline' },
+  { path: '', label: 'Dashboard', icon: 'home', iconOutline: 'home-outline' },
+  { path: 'classes', label: 'Classes', icon: 'library', iconOutline: 'library-outline' },
   { path: 'upload', label: 'Upload', icon: 'camera', iconOutline: 'camera-outline', center: true },
-  { path: 'records', label: 'Records', icon: 'folder-open', iconOutline: 'folder-open-outline' },
+  { path: 'notifications', label: 'Notifications', icon: 'notifications', iconOutline: 'notifications-outline' },
   { path: 'profile', label: 'Profile', icon: 'person', iconOutline: 'person-outline' },
 ];
 
@@ -70,10 +75,10 @@ const TEACHER_TABS: TabSpec[] = [
   { path: 'profile', label: 'Profile', icon: 'person', iconOutline: 'person-outline' },
 ];
 
-function TeacherTabs() {
+/** A role's tabs with the unread count on its Notifications tab. */
+function BadgedTabs({ base, tabs }: { base: string; tabs: TabSpec[] }) {
   const unread = useTeacherBadge();
-  const tabs = TEACHER_TABS.map((t) => (t.path === 'notifications' ? { ...t, badge: unread } : t));
-  return <Tabs base="/teacher" tabs={tabs} />;
+  return <Tabs base={base} tabs={tabs.map((t) => (t.path === 'notifications' ? { ...t, badge: unread } : t))} />;
 }
 
 export function App() {
@@ -144,14 +149,21 @@ function AppRoutes() {
       </Route>
 
       <Route element={<Allow allowed={role === 'STUDENT'} home={home} />}>
-        <Route path="/student" element={<Tabs base="/student" tabs={STUDENT_TABS} />}>
+        <Route path="/student" element={<BadgedTabs base="/student" tabs={STUDENT_TABS} />}>
           <Route index element={<StudentHomeScreen />} />
-          <Route path="subjects" element={<StudentSubjectsScreen />} />
+          <Route path="classes" element={<StudentClassesScreen />} />
+          <Route path="classes/:classId" element={<StudentClassScreen />} />
+          <Route path="subjects/:subjectId" element={<StudentSubjectScreen />} />
+          {/* My Work / My Lacking / My Records: one list, filtered (PRD v0.7 §17, §31, §32). */}
+          <Route path="work" element={<StudentWorkScreen />} />
+          <Route path="records/:evidenceId" element={<StudentRecordScreen />} />
           <Route path="upload" element={<StudentUploadScreen />} />
-          <Route path="records" element={<StudentRecordsScreen />} />
+          <Route path="notifications" element={<StudentNotificationsScreen />} />
           <Route path="profile" element={<StudentProfileScreen />} />
-          {/* Not a tab: opened from the bell on Student Home (PRD v0.3 §23). */}
-          <Route path="inbox" element={<StudentInboxScreen />} />
+          {/* Older links. */}
+          <Route path="inbox" element={<Navigate to="/student/notifications" replace />} />
+          <Route path="records" element={<Navigate to="/student/work?status=SUBMITTED" replace />} />
+          <Route path="subjects" element={<Navigate to="/student/classes" replace />} />
         </Route>
       </Route>
 
@@ -173,7 +185,7 @@ function AppRoutes() {
       </Route>
 
       <Route element={<Allow allowed={role === 'TEACHER'} home={home} />}>
-        <Route path="/teacher" element={<TeacherTabs />}>
+        <Route path="/teacher" element={<BadgedTabs base="/teacher" tabs={TEACHER_TABS} />}>
           <Route index element={<TeacherDashboardScreen />} />
           <Route path="dashboard" element={<Navigate to="/teacher" replace />} />
           <Route path="sections" element={<TeacherSectionsScreen />} />
