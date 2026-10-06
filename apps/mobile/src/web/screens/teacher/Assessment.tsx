@@ -5,12 +5,14 @@ import { ASSESSMENT_TYPE_LABELS, QUARTER_LABELS } from '@/features/assessments/c
 import { authErrorMessage } from '@/features/auth/api';
 import {
   assessmentProgress,
+  assessmentCorrectionRequests,
   assessmentStudents,
   bulkVerifyEvidence,
   correctScore,
   evidencePhotoUrl,
   getAssessment,
   rejectEvidence,
+  resolveCorrectionRequest,
   setExemption,
   verifyEvidence,
   type AssessmentDetail,
@@ -74,6 +76,7 @@ export default function TeacherAssessment() {
   const [page, setPage] = useState(0);
   const query = { assessmentId, search, status, sort, page };
   const list = useLoad(() => friendly(assessmentStudents(query)), JSON.stringify(query));
+  const corrections = useLoad(() => friendly(assessmentCorrectionRequests(assessmentId)), assessmentId);
 
   const [action, setAction] = useState<Action | null>(null);
   const [busyRow, setBusyRow] = useState<string | null>(null);
@@ -177,6 +180,7 @@ export default function TeacherAssessment() {
                   onPress={remindMissing}
                 />
               ) : null}
+              {corrections.data?.filter((request) => request.status === 'OPEN').length ? <Card><p className="sx-title">Score review requests</p>{corrections.data.filter((request) => request.status === 'OPEN').map((request) => <div key={request.id} className="sx-item"><span className="sx-title">{request.student_name}</span><span className="sx-meta">{request.message}</span><div className="sx-actions"><button type="button" className="sx-action good" onClick={() => void resolveCorrectionRequest(request.id).then(corrections.reload)}>Mark resolved</button><button type="button" className="sx-action" onClick={() => void resolveCorrectionRequest(request.id, 'DISMISSED').then(corrections.reload)}>Dismiss</button></div></div>)}</Card> : null}
             </>
           ) : null}
         </LoadGate>

@@ -303,6 +303,9 @@ export async function evidencePhotoUrl(imagePath: string): Promise<string> {
 
 export const verifyEvidence = (evidenceId: string) => rpcVoid('verify_evidence', { p_evidence_id: evidenceId });
 export const bulkVerifyEvidence = (evidenceIds: string[]) => supabase.rpc('bulk_verify_evidence', { p_evidence_ids: evidenceIds }).then(({ data, error }) => { if (error) throw error; return z.number().parse(data); });
+export interface CorrectionRequest { id: string; evidence_id: string; student_name: string; message: string; status: 'OPEN' | 'RESOLVED' | 'DISMISSED'; created_at: string; }
+export const assessmentCorrectionRequests = (assessmentId: string) => rpcRows('assessment_correction_requests', { p_assessment_id: assessmentId }, z.object({ id: z.uuid(), evidence_id: z.uuid(), student_name: z.string(), message: z.string(), status: z.enum(['OPEN','RESOLVED','DISMISSED']), created_at: z.string() }));
+export const resolveCorrectionRequest = (requestId: string, status: 'RESOLVED' | 'DISMISSED' = 'RESOLVED') => rpcVoid('resolve_correction_request', { p_request_id: requestId, p_status: status });
 export const rejectEvidence = (evidenceId: string, reason: string) => rpcVoid('reject_evidence', { p_evidence_id: evidenceId, p_reason: reason });
 export const correctScore = (evidenceId: string, score: number) => rpcVoid('correct_evidence_score', { p_evidence_id: evidenceId, p_score: score });
 export const setExemption = (assessmentId: string, studentProfileId: string, exempt: boolean, reason?: string) =>
