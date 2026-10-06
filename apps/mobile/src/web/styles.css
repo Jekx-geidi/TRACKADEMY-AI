@@ -98,6 +98,8 @@ button {
   outline-offset: 2px;
 }
 
+html[data-data-saver='true'] *, html[data-data-saver='true'] *::before, html[data-data-saver='true'] *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+
 .visually-hidden {
   position: absolute;
   width: 1px;

@@ -13,6 +13,7 @@ import { Card } from './Card';
 import { Dialog } from './Dialog';
 import { Icon, type IconName } from './Icon';
 import { InstallAppCard } from './InstallAppCard';
+import { DataSaverToggle } from './DataSaverToggle';
 import { Notice, Screen } from './Screen';
 import { Spinner } from './Spinner';
 import { TextField } from './TextField';
@@ -81,6 +82,7 @@ export function ProfileView({ children }: { children?: ReactNode }) {
         <SettingsRow icon="mail-outline" label="Email" value={email || 'Not set'} onPress={() => setEditing('email')} />
         <SettingsRow icon="key-outline" label="Password" value="Change your password" onPress={() => setEditing('password')} />
       </Card>
+      <Card><DataSaverToggle /></Card>
 
       {children}
       <InstallAppCard />
