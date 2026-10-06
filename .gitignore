@@ -1,0 +1,11 @@
+node_modules/
+.DS_Store
+*.log
+
+# Local env files — never commit secrets
+.env
+.env*.local
+
+# Supabase local state
+supabase/.branches
+supabase/.temp

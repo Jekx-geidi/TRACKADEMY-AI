@@ -1,0 +1,74 @@
+/* Teacher Create Assessment tab. Values follow the Expo StyleSheet. */
+
+.create-code-hero {
+  align-items: center;
+}
+
+.create-code-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--hero-muted);
+}
+
+.create-code {
+  font-size: 54px;
+  font-weight: 800;
+  letter-spacing: 10px;
+  color: var(--primary-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.create-code-hint {
+  font-size: 15px;
+  color: var(--hero-muted);
+  text-align: center;
+  line-height: 21px;
+}
+
+.create-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--md);
+}
+
+.create-form-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--heading);
+}
+
+.create-field {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--xs) + 2px);
+}
+
+.create-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--heading);
+}
+
+.create-error {
+  font-size: 14px;
+  color: var(--danger);
+}
+
+.create-input {
+  font-size: 17px;
+}
+
+/* The shared chips sit on the page background; inside the white card they use the input fill. */
+.create-form .chip {
+  min-height: 40px;
+}
+
+.create-form .chip:not([aria-checked='true']) {
+  background: var(--input-fill);
+}
+
+.create-code-pill {
+  flex: none;
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+}

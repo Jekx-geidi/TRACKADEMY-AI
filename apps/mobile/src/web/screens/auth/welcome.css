@@ -1,0 +1,70 @@
+/* Welcome screen shapes, sized from the frame width (the window, capped at 520px) like the Expo screen. */
+
+.welcome {
+  --w: min(100vw, 520px);
+  /* How much of the top dome shows. */
+  --dome-visible: max(120px, 17dvh);
+  --logo: min(124px, calc(var(--w) * 0.28));
+  --footer-bottom: calc(env(safe-area-inset-bottom) + var(--lg));
+}
+
+.welcome-dome {
+  width: calc(var(--w) * 1.7);
+  height: calc(var(--w) * 1.7);
+  top: calc(var(--dome-visible) - var(--w) * 1.7);
+  left: calc(var(--w) * -0.35);
+}
+
+/* Centred on the document badge, which sits beside Continue (badge is 64px tall). */
+.welcome-circle {
+  width: calc(var(--w) * 0.62);
+  height: calc(var(--w) * 0.62);
+  left: calc(var(--w) * -0.62 * 0.38);
+  bottom: calc(var(--footer-bottom) + 32px - var(--w) * 0.31);
+}
+
+.welcome-wave {
+  width: calc(var(--w) * 1.5);
+  height: calc(var(--w) * 0.6);
+  border-radius: var(--w);
+  right: calc(var(--w) * -0.5);
+  bottom: calc(var(--w) * -0.3);
+}
+
+.welcome-glow {
+  position: absolute;
+  width: calc(var(--w) * 0.95);
+  height: calc(var(--w) * 0.38);
+  border-radius: var(--w);
+  left: calc(var(--w) * 0.05);
+  bottom: calc(var(--w) * -0.22);
+  background: linear-gradient(to bottom right, #ffffff, #d9d6fb);
+}
+
+.welcome .welcome-content {
+  padding-top: calc(var(--dome-visible) - var(--logo) * 0.35);
+}
+
+.welcome-logo {
+  width: var(--logo);
+  height: var(--logo);
+}
+
+.welcome-wordmark {
+  width: calc(var(--w) * 0.7);
+  height: auto;
+  aspect-ratio: 900 / 115;
+  margin-top: var(--lg);
+}
+
+.welcome .welcome-footer {
+  padding-bottom: var(--footer-bottom);
+}
+
+.welcome-footer .btn {
+  flex: 1;
+}
+
+.doc-badge .arrow svg {
+  transform: rotate(45deg);
+}

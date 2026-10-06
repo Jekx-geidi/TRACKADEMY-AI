@@ -1,0 +1,203 @@
+/* Scan flow screens (ScanIndex, Review, Manual, Saved). Values follow the Expo StyleSheets. */
+
+/* ---------- ScanIndex ---------- */
+
+.scan-guide {
+  align-items: center;
+  gap: var(--md);
+  padding-top: var(--lg);
+  padding-bottom: var(--lg);
+}
+
+.scan-guide-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--heading);
+}
+
+.scan-guide-text {
+  font-size: 15px;
+  color: var(--muted);
+  text-align: center;
+  line-height: 21px;
+}
+
+.scan-for {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--heading);
+  text-align: center;
+}
+
+.scan-actions {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--sm) + 4px);
+}
+
+/* ---------- Review ---------- */
+
+.scan-photo-card {
+  padding: var(--sm);
+}
+
+.scan-photo {
+  width: 100%;
+  height: 220px;
+  object-fit: contain;
+  border-radius: var(--r-md);
+  background: var(--input-fill);
+}
+
+.scan-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sm);
+  padding: var(--sm);
+}
+
+.scan-loading-text {
+  font-size: 16px;
+  color: var(--muted);
+}
+
+.scan-match-hero {
+  flex-direction: row;
+  align-items: center;
+  gap: var(--md);
+}
+
+.scan-match-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.scan-match-label {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--hero-muted);
+}
+
+.scan-match-code {
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: 6px;
+  color: var(--primary-text);
+  font-variant-numeric: tabular-nums;
+}
+
+/* The score form keeps the screen's own spacing between its children. */
+.scan-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--md);
+}
+
+.scan-meta {
+  font-size: 15px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.scan-choice {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sm);
+}
+
+.scan-raw-box {
+  gap: var(--xs);
+}
+
+.scan-raw-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* numberOfLines={12} in the Expo version. */
+.scan-raw {
+  font-size: 13px;
+  color: var(--muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 12;
+  line-clamp: 12;
+  overflow: hidden;
+}
+
+/* ---------- Manual ---------- */
+
+.scan-code-card {
+  align-items: center;
+  gap: calc(var(--sm) + 4px);
+  padding-top: var(--lg);
+  padding-bottom: var(--lg);
+}
+
+.scan-code-label {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--heading);
+  text-align: center;
+}
+
+.scan-code-hint {
+  font-size: 15px;
+  color: var(--muted);
+  line-height: 21px;
+  text-align: center;
+}
+
+.plain-input.scan-code-input {
+  align-self: stretch;
+  margin-top: var(--sm);
+  padding-top: var(--md);
+  padding-bottom: var(--md);
+  font-size: 36px;
+  font-weight: 800;
+  letter-spacing: 10px;
+  text-align: center;
+  color: var(--heading);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Saved ---------- */
+
+.scan-success {
+  align-items: center;
+  gap: calc(var(--sm) + 4px);
+  padding-top: var(--lg);
+  padding-bottom: var(--lg);
+}
+
+.scan-success-title {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--heading);
+}
+
+.scan-status-pill {
+  background: var(--accent-soft);
+  border-radius: 999px;
+  padding: calc(var(--xs) + 2px) var(--md);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--heading);
+  text-align: center;
+}
+
+.scan-score {
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--heading);
+}
+
+.scan-saved-meta {
+  font-size: 14px;
+  color: var(--muted);
+}

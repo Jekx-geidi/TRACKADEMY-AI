@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "useDefineForClassFields": true,
+    "lib": ["DOM", "DOM.Iterable", "ES2022"],
+    "types": ["vite/client", "vitest/globals", "node"],
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    // Same lookup order as vite.config.ts: `foo.web.ts` wins over `foo.ts`.
+    "moduleSuffixes": [".web", ""],
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "paths": { "@/*": ["./src/*"] }
+  },
+  "include": ["src/web", "src/features", "src/services", "src/lib", "db-tests", "vite.config.ts", "vitest.db.config.ts"],
+  // The Expo screens, UI kit and native-only modules are kept for reference but not built.
+  "exclude": [
+    "src/app",
+    "src/components",
+    "src/legacy",
+    "src/**/*.native.ts",
+    "src/**/*.native.tsx",
+    "src/lib/__tests__/sessionStorage.test.ts",
+    // Expo versions of modules that now have a `.web.ts` build beside them.
+    "src/lib/env.ts",
+    "src/lib/supabase.ts",
+    "src/lib/useLoad.ts",
+    "src/services/camera/index.ts",
+    "src/features/scanner/preprocess.ts",
+    "src/features/scanner/usePickPaper.ts"
+  ]
+}

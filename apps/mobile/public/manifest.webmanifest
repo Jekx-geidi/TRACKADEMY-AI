@@ -1,0 +1,20 @@
+{
+  "id": "/",
+  "name": "Trackademic",
+  "short_name": "Trackademic",
+  "description": "Keep checked schoolwork and scores organized for students, parents and teachers.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#FFFFFF",
+  "theme_color": "#F7F5FC",
+  "categories": [
+    "education"
+  ],
+  "icons": [
+    { "src": "/icons/splash-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/splash-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

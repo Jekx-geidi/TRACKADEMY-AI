@@ -1,0 +1,224 @@
+/* Bits of the auth and setup screens not covered by styles.css. */
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--md);
+}
+
+.auth-spacer {
+  flex-grow: 1;
+}
+
+.forgot-link {
+  align-self: flex-end;
+  margin-top: -4px;
+  font-size: 15px;
+  text-decoration: none;
+}
+
+/* ---------- Onboarding ---------- */
+
+.onboarding-top {
+  height: 44px;
+  flex: none;
+}
+
+.onboarding-title {
+  margin-top: var(--sm);
+}
+
+.onboarding-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.onboarding-skip {
+  min-height: var(--touch);
+  padding: 0 calc(var(--lg) + 4px);
+  border-radius: var(--r-md);
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--heading);
+}
+
+.onboarding-next {
+  width: calc(var(--touch) + 4px);
+  height: calc(var(--touch) + 4px);
+  border-radius: var(--r-md);
+  border: 0;
+  background: var(--primary);
+  color: var(--primary-text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.onboarding-skip:active,
+.onboarding-next:active {
+  opacity: 0.85;
+}
+
+/* ---------- Setup ---------- */
+
+.setup-center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--md);
+}
+
+.role-cards {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--sm) + 4px);
+}
+
+.role-card {
+  display: flex;
+  align-items: center;
+  gap: var(--md);
+  width: 100%;
+  padding: var(--md);
+  border-radius: calc(var(--r-lg) - 4px);
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  text-align: left;
+}
+
+.role-card:active:not(:disabled) {
+  opacity: 0.85;
+}
+
+.role-card:disabled {
+  cursor: default;
+}
+
+.role-card[aria-checked='true'] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.role-icon {
+  width: 56px;
+  height: 56px;
+  flex: none;
+  border-radius: var(--r-md);
+  background: var(--accent-soft);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.role-card[aria-checked='true'] .role-icon {
+  background: var(--accent);
+  color: var(--primary-text);
+}
+
+.role-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.role-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--heading);
+}
+
+.role-body {
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--muted);
+}
+
+.role-check {
+  flex: none;
+  color: var(--border);
+}
+
+.role-card[aria-checked='true'] .role-check {
+  color: var(--accent);
+}
+
+/* Soft card holding a code (student link code, teacher class code). */
+.code-card {
+  background: var(--accent-soft);
+  border-radius: var(--r-lg);
+  padding: var(--lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sm);
+  text-align: center;
+}
+
+.code-card.tight {
+  gap: var(--xs);
+}
+
+.code-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.code-value {
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--heading);
+  letter-spacing: 6px;
+  user-select: all;
+}
+
+.code-card.tight .code-value {
+  margin-top: var(--sm);
+}
+
+.code-error {
+  font-size: 15px;
+  color: var(--danger);
+}
+
+.code-help {
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--heading);
+  opacity: 0.75;
+}
+
+.code-name {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--heading);
+}
+
+.child-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sm);
+}
+
+.child-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sm);
+  padding: var(--md);
+  border-radius: var(--r-md);
+  background: var(--success-soft);
+  color: var(--success);
+}
+
+.child-row span {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--heading);
+}
