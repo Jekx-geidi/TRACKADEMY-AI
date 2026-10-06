@@ -2,18 +2,23 @@ import type { CSSProperties } from 'react';
 
 import { loadChildRecords } from '@/features/dashboards/loaders';
 import { useSelectedChild } from '@/features/dashboards/SelectedChild';
+import { listWork } from '@/features/student/api';
 import { formatPercent, summarizeBySubject } from '@/features/evidence/summary';
 import { useLoad } from '@/lib/useLoad';
 
 import { Card } from '../../ui/Card';
 import { ChildPicker } from '../../ui/ChildPicker';
 import { RecordsList } from '../../ui/RecordsList';
+import { EmptyCard, LoadGate } from '../../ui/Dashboard';
+import { SectionTitle } from '../../ui/Screen';
+import { WorkRow } from '../../ui/WorkRow';
 import { colors } from '../../ui/theme';
 
 export default function ParentChild() {
   const { child } = useSelectedChild();
   const childId = child?.id ?? null;
   const { data, error, loading, reload } = useLoad(async () => (childId ? loadChildRecords(childId) : []), childId);
+  const lacking = useLoad(() => childId ? listWork({ studentProfileId: childId, status: 'LACKING', limit: 10 }) : Promise.resolve({ rows: [], total: 0 }), childId);
   const subjects = summarizeBySubject(data ?? []);
 
   return (
@@ -40,6 +45,15 @@ export default function ParentChild() {
                 </div>
               ))}
             </Card>
+          ) : null}
+          {child ? (
+            <>
+              <SectionTitle>Needs attention</SectionTitle>
+              <LoadGate loading={lacking.loading} error={lacking.error} hasData={lacking.data !== undefined} onRetry={lacking.reload}>
+                {lacking.data?.rows.length === 0 ? <EmptyCard icon="happy-outline" title="Nothing needs attention" body="Missing, overdue, or resubmission work appears here." /> : null}
+                {lacking.data?.rows.length ? <Card className="list-card">{lacking.data.rows.map((item) => <WorkRow key={item.assessment_id} item={item} />)}</Card> : null}
+              </LoadGate>
+            </>
           ) : null}
         </>
       }

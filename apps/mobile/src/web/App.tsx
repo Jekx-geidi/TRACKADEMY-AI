@@ -15,6 +15,7 @@ import ParentChildScreen from './screens/parent/Child';
 import ParentHomeScreen from './screens/parent/Home';
 import ParentInboxScreen from './screens/parent/Inbox';
 import ParentProfileScreen from './screens/parent/Profile';
+import ParentRecordsScreen from './screens/parent/Records';
 import ParentScanScreen from './screens/parent/Scan';
 import ScanIndexScreen from './screens/scan/ScanIndex';
 import ScanManualScreen from './screens/scan/Manual';
@@ -59,10 +60,10 @@ const STUDENT_TABS: TabSpec[] = [
 ];
 
 const PARENT_TABS: TabSpec[] = [
-  { path: '', label: 'Home', icon: 'home', iconOutline: 'home-outline' },
+  { path: '', label: 'Dashboard', icon: 'home', iconOutline: 'home-outline' },
   { path: 'child', label: 'Child', icon: 'happy', iconOutline: 'happy-outline' },
-  { path: 'scan', label: 'Scan', icon: 'scan', iconOutline: 'scan-outline', center: true },
-  { path: 'inbox', label: 'Inbox', icon: 'mail', iconOutline: 'mail-outline' },
+  { path: 'notifications', label: 'Notifications', icon: 'notifications', iconOutline: 'notifications-outline' },
+  { path: 'records', label: 'Records', icon: 'folder-open', iconOutline: 'folder-open-outline' },
   { path: 'profile', label: 'Profile', icon: 'person', iconOutline: 'person-outline' },
 ];
 
@@ -179,8 +180,10 @@ function AppRoutes() {
           <Route index element={<ParentHomeScreen />} />
           <Route path="child" element={<ParentChildScreen />} />
           <Route path="scan" element={<ParentScanScreen />} />
-          <Route path="inbox" element={<ParentInboxScreen />} />
+          <Route path="notifications" element={<ParentInboxScreen />} />
+          <Route path="records" element={<ParentRecordsScreen />} />
           <Route path="profile" element={<ParentProfileScreen />} />
+          <Route path="inbox" element={<Navigate to="/parent/notifications" replace />} />
         </Route>
       </Route>
 

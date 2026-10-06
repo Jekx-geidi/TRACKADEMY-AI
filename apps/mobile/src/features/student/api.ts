@@ -46,8 +46,8 @@ const dashboardRow = z.object({
 });
 export type StudentDashboard = z.infer<typeof dashboardRow>;
 
-export async function studentDashboard(): Promise<StudentDashboard> {
-  const [row] = await rpcRows('student_dashboard', {}, dashboardRow);
+export async function studentDashboard(studentProfileId?: string): Promise<StudentDashboard> {
+  const [row] = await rpcRows('student_dashboard', { p_student_profile_id: opt(studentProfileId) }, dashboardRow);
   if (!row) throw new Error('Set up your student account first.');
   return row;
 }
@@ -80,6 +80,8 @@ const workRow = z.object({
 export type WorkItem = z.infer<typeof workRow>;
 
 export interface WorkQuery {
+  /** A linked child when the signed-in user is a parent; server authorization decides access. */
+  studentProfileId?: string;
   classId?: string;
   subjectId?: string;
   search?: string;
@@ -96,6 +98,7 @@ export async function listWork(q: WorkQuery = {}): Promise<Page<WorkItem>> {
   const rows = await rpcRows(
     'student_work',
     {
+      p_student_profile_id: opt(q.studentProfileId),
       p_class_id: opt(q.classId),
       p_subject_id: opt(q.subjectId),
       p_search: opt(q.search),
@@ -129,10 +132,10 @@ const classRow = z.object({
 });
 export type StudentClass = z.infer<typeof classRow>;
 
-export const listMyClasses = () => rpcRows('student_classes', {}, classRow);
+export const listMyClasses = (studentProfileId?: string) => rpcRows('student_classes', { p_student_profile_id: opt(studentProfileId) }, classRow);
 
-export async function getMyClass(classId: string): Promise<StudentClass | null> {
-  return (await listMyClasses()).find((c) => c.class_id === classId) ?? null;
+export async function getMyClass(classId: string, studentProfileId?: string): Promise<StudentClass | null> {
+  return (await listMyClasses(studentProfileId)).find((c) => c.class_id === classId) ?? null;
 }
 
 export const SUBJECT_STATUSES = ['LACKING', 'PENDING', 'COMPLETE', 'NO_WORK'] as const;
@@ -157,8 +160,8 @@ const subjectRow = z.object({
 });
 export type StudentSubject = z.infer<typeof subjectRow>;
 
-export const listMySubjects = (classId: string, q: { search?: string; quarter?: Quarter | ''; status?: SubjectStatus | '' } = {}) =>
-  rpcRows('student_subjects', { p_class_id: classId, p_search: opt(q.search), p_quarter: opt(q.quarter), p_status: opt(q.status) }, subjectRow);
+export const listMySubjects = (classId: string, q: { studentProfileId?: string; search?: string; quarter?: Quarter | ''; status?: SubjectStatus | '' } = {}) =>
+  rpcRows('student_subjects', { p_class_id: classId, p_student_profile_id: opt(q.studentProfileId), p_search: opt(q.search), p_quarter: opt(q.quarter), p_status: opt(q.status) }, subjectRow);
 
 /** A subject the student can read (RLS: members of its section). */
 export async function getSubject(subjectId: string): Promise<{ id: string; name: string; class_id: string } | null> {
