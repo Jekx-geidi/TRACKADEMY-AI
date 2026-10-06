@@ -1,18 +1,60 @@
-# Plan: PRD v0.3 — Class Workspace, Subject Folders, Verification, Parent Monitoring
+# Plan: PRD v0.3 + v0.5 — Class Workspace, Teacher UX, Verification, Notifications
 
-Source: "Trackademy PRD v0.3 — Class Workspace" (shared in chat on 2026-10-06; not saved in the repo).
+Sources, both shared in chat on 2026-10-06 and not saved in the repo:
+- "Trackademy PRD v0.3 — Class Workspace"
+- "Trackademy PRD v0.5 — Teacher Navigation, Visual Analytics, Communication, and Simplified UX"
 
 Decisions (2026-10-06):
 - **Backend stays Supabase** (Postgres + RLS + SECURITY DEFINER functions + private storage), not the Laravel stack the PRD suggests. Every PRD authorization rule becomes an RLS policy or a function check.
 - **Product name stays "Trackademic"**, not "Trackademy".
-- **No git yet.** The user will initialise it after this work, so tasks are not committed one by one.
+- **Git** was initialised on 2026-10-06. The user pushes to GitHub; tasks are committed locally.
 
 Each task is one vertical slice: migration → API → UI, plus tests.
 - Database rules are tested against the **local** Supabase with `npm run test:db`. That needs `supabase start`, and it never touches the hosted project.
 - Pure logic is tested with `npm test`.
 - Every migration still has to be pushed to the hosted project by the user (`supabase db push --linked`).
 
-## Phase A — Class Workspace (PRD P0)
+## Phase V — PRD v0.5 Teacher UX (2026-10-06, supersedes v0.3 T2–T9 for teachers)
+
+The teacher app has exactly five tabs: **Dashboard · Sections · Notifications · Students · Profile**.
+- A "Section" is the v0.3 Class Workspace, stored in the `classes` table.
+- Completion: submitted ÷ required students × 100. Exempt students are not counted as required.
+- Status bands: 0% Not Started, 1–79% Needs Attention, 80–99% Almost Complete, 100% Complete. A text label is always shown with the colour.
+- Lists page 20 rows at a time.
+
+- [ ] **V1 Backend: sections, subjects, assessments in subjects.**
+  - Section description and membership status (active, inactive, removed).
+  - `subjects` table.
+  - New assessment fields: subject, assessment date, due date, instructions.
+  - Exemptions.
+  - Filing-code lookup and evidence creation are scoped to the section's members (closes the "any user can look up any code" gap).
+  - Teachers can read evidence photos for their own assessments.
+  - Absorbs v0.3 T2, T5 and T6.
+- [ ] **V2 Backend: verification and audit trail.** Verify, reject (with a reason), correct a score and exempt; every action goes into `audit_logs`. Absorbs v0.3 T8.
+- [ ] **V3 Backend: notifications, reminders and reports.**
+  - Events: submission created, verified and rejected; student joined; reminder; report.
+  - Pass, Pending and Overdue are derived from the evidence and the due dates.
+  - Absorbs v0.3 T9, T12 and T13.
+- [ ] **V4 Backend: teacher lists and analytics.**
+  - Lists: sections, section overview, subject assessments with completion, assessment students, and teacher students. Each has search, filters, sort and paging.
+  - Dashboard overview and analytics.
+  - Move, remove and mark inactive for students.
+  - Teacher info on the profile.
+- [ ] **V5 Teacher shell and Sections.**
+  - The five tabs.
+  - Sections list.
+  - Create Section, with the join code and an invite link.
+  - `/join/:code` with confirmation.
+  - Section workspace (Overview | Subjects | Students).
+  - Subject workspace and assessment categories.
+  - Create Assessment.
+  - Assessment detail with the student submission list, View Evidence, Verify, Reject, Correct Score, Exempt and Send Reminder.
+- [ ] **V6 Notifications.** The teacher action center (All | Pass | Pending | Overdue, filters, mark read, archive, send reminder or report), plus the student and parent inbox.
+- [ ] **V7 Students.** List across sections; student detail with submissions, missing work, reports and reminders; edit, move, remove and mark inactive.
+- [ ] **V8 Dashboard.** Overview (status cards, Needs Attention, quick access, recent updates) and Analytics (section donuts, a Submission | Verification switch, subject analytics, drill-down).
+- [ ] **V9 Profile basics.** Account plus teacher information: school, department and teaching subjects.
+
+## Phase A — Class Workspace (PRD v0.3 P0)
 
 ### T1. Class Workspace details and a 6-digit class join code — DONE 2026-10-06
 PRD §7, §9.1, §16.
