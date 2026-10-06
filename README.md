@@ -1,3 +1,5 @@
+<p align="center"><img src="apps/mobile/assets/logo-full.png" alt="Trackademic" width="320"></p>
+
 # Trackademic — web app / PWA (Milestone 1)
 
 Trackademic is a web-first record of checked schoolwork for students, parents/guardians and teachers. See [Trackademic_PRD_v0.2_Role_Based.md](Trackademic_PRD_v0.2_Role_Based.md).
