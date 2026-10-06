@@ -216,6 +216,17 @@ export async function getRecord(evidenceId: string): Promise<StudentRecord> {
   return row;
 }
 
+export interface TimelineEvent { event_type: string; detail: string | null; created_at: string; actor_name: string | null; }
+export async function evidenceHistory(evidenceId: string): Promise<TimelineEvent[]> {
+  const { data, error } = await supabase.rpc('evidence_history', { p_evidence_id: evidenceId });
+  if (error) throw error;
+  return z.array(z.object({ event_type: z.string(), detail: z.string().nullable(), created_at: z.string(), actor_name: z.string().nullable() })).parse(data ?? []);
+}
+export async function requestScoreCorrection(evidenceId: string, message: string): Promise<void> {
+  const { error } = await supabase.rpc('request_score_correction', { p_evidence_id: evidenceId, p_message: message });
+  if (error) throw error;
+}
+
 /** A short-lived link to the paper's photo (private bucket). */
 export async function recordPhotoUrl(imagePath: string): Promise<string> {
   const { data, error } = await supabase.storage.from('evidence').createSignedUrl(imagePath, 300);

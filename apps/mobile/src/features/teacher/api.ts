@@ -302,10 +302,11 @@ export async function evidencePhotoUrl(imagePath: string): Promise<string> {
 }
 
 export const verifyEvidence = (evidenceId: string) => rpcVoid('verify_evidence', { p_evidence_id: evidenceId });
+export const bulkVerifyEvidence = (evidenceIds: string[]) => supabase.rpc('bulk_verify_evidence', { p_evidence_ids: evidenceIds }).then(({ data, error }) => { if (error) throw error; return z.number().parse(data); });
 export const rejectEvidence = (evidenceId: string, reason: string) => rpcVoid('reject_evidence', { p_evidence_id: evidenceId, p_reason: reason });
 export const correctScore = (evidenceId: string, score: number) => rpcVoid('correct_evidence_score', { p_evidence_id: evidenceId, p_score: score });
-export const setExemption = (assessmentId: string, studentProfileId: string, exempt: boolean) =>
-  rpcVoid('set_exemption', { p_assessment_id: assessmentId, p_student_profile_id: studentProfileId, p_exempt: exempt });
+export const setExemption = (assessmentId: string, studentProfileId: string, exempt: boolean, reason?: string) =>
+  rpcVoid('set_exemption', { p_assessment_id: assessmentId, p_student_profile_id: studentProfileId, p_exempt: exempt, p_reason: reason ?? null });
 
 // ---------------------------------------------------------------------------
 // Communication

@@ -8,7 +8,7 @@ import { isPending, isWithinDays, needsAttention } from '@/features/evidence/sum
 import { useLoad } from '@/lib/useLoad';
 
 import { Button } from '../../ui/Button';
-import { HeroCard } from '../../ui/Card';
+import { Card, HeroCard } from '../../ui/Card';
 import { ChildPicker } from '../../ui/ChildPicker';
 import { EmptyCard, firstName, greeting, ListCard, LoadGate, PageHeader, RecordRow, StatRow, StatTile } from '../../ui/Dashboard';
 import { Screen, SectionTitle } from '../../ui/Screen';
@@ -46,6 +46,10 @@ export default function ParentHome() {
           </HeroCard>
 
           <LoadGate loading={loading} error={error} hasData={records !== undefined} onRetry={reload}>
+            <Card>
+              <p className="eyebrow">{`${firstName(child.displayName)}'s week`}</p>
+              <p className="subtitle">{`${list.length} saved papers · ${fresh.length} new scores · ${pending.length} awaiting verification`}</p>
+            </Card>
             <StatRow>
               <StatTile icon="sparkles" value={fresh.length} label={`New scores (${NEW_DAYS} days)`} />
               <StatTile icon="alert-circle" value={attention.length} label="Needs attention" tint={colors.warningSoft} />

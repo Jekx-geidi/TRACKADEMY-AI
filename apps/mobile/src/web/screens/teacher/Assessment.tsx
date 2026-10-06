@@ -6,6 +6,7 @@ import { authErrorMessage } from '@/features/auth/api';
 import {
   assessmentProgress,
   assessmentStudents,
+  bulkVerifyEvidence,
   correctScore,
   evidencePhotoUrl,
   getAssessment,
@@ -78,6 +79,7 @@ export default function TeacherAssessment() {
   const [busyRow, setBusyRow] = useState<string | null>(null);
   const [message, setMessage] = useState<{ tone: 'success' | 'danger'; text: string } | null>(null);
   const [gatheringMissing, setGatheringMissing] = useState(false);
+  const [bulkBusy, setBulkBusy] = useState(false);
 
   const filtered =
     <T,>(set: (value: T) => void) =>
@@ -124,6 +126,15 @@ export default function TeacherAssessment() {
     } finally {
       setGatheringMissing(false);
     }
+  };
+
+  const verifyPending = async () => {
+    setBulkBusy(true); setMessage(null);
+    try {
+      const ids = (list.data?.rows ?? []).filter((row) => row.row_status === 'PENDING' && row.evidence_id).map((row) => row.evidence_id as string);
+      if (!ids.length) setMessage({ tone: 'success', text: 'No pending submissions on this page.' });
+      else { const count = await bulkVerifyEvidence(ids); setMessage({ tone: 'success', text: `${count} submissions verified.` }); refresh(); }
+    } catch (err) { setMessage({ tone: 'danger', text: authErrorMessage(err) }); } finally { setBulkBusy(false); }
   };
 
   const a = detail.data?.assessment;
@@ -186,6 +197,7 @@ export default function TeacherAssessment() {
             </>
           }
         />
+        <Button label="Verify pending on this page" icon="checkmark-done" variant="secondary" loading={bulkBusy} onPress={() => void verifyPending()} />
         <LoadGate loading={list.loading} error={list.error} hasData={list.data !== undefined} onRetry={list.reload}>
           {list.data && list.data.rows.length === 0 ? (
             search || status ? (
