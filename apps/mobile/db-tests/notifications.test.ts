@@ -3,10 +3,10 @@ import { describe, expect, it } from 'vitest';
 import { must, newAccount, ok, submitEvidence, teacherWithSubject, type Account } from './clients';
 
 type Assessment = { id: string; assessment_code: string };
-type Note = { type: string; title: string; body: string | null; read_at: string | null; archived_at: string | null };
+type Note = { id: string; type: string; title: string; body: string | null; read_at: string | null; archived_at: string | null };
 
 const inbox = (who: Account) =>
-  must(who.client.from('notifications').select('type, title, body, read_at, archived_at').order('created_at', { ascending: true }).returns<Note[]>());
+  must(who.client.from('notifications').select('id, type, title, body, read_at, archived_at').order('created_at', { ascending: true }).returns<Note[]>());
 
 /** A section with a quiz, a member student "Jake" and Jake's linked parent. */
 async function family() {
@@ -34,7 +34,10 @@ describe('notifications for a submission', () => {
     expect((await inbox(teacher)).filter((n) => n.type === 'SUBMISSION_CREATED')).toEqual([
       expect.objectContaining({ title: 'Jake Engaña submitted Math Quiz 4', body: '22/30 · Awaiting verification' }),
     ]);
-    expect(await inbox(student)).toEqual([expect.objectContaining({ type: 'SUBMISSION_CREATED', title: 'Your Math Quiz 4 was recorded' })]);
+    // The student also has "You joined …" (and "New quiz …" when they joined first).
+    expect((await inbox(student)).filter((n) => n.type === 'SUBMISSION_CREATED')).toEqual([
+      expect.objectContaining({ type: 'SUBMISSION_CREATED', title: 'Your Math Quiz 4 was recorded' }),
+    ]);
     expect(await inbox(parent)).toEqual([
       expect.objectContaining({ type: 'SUBMISSION_CREATED', title: `Jake Engaña submitted Math Quiz 4 - ${assessment.assessment_code}` }),
     ]);
@@ -142,14 +145,15 @@ describe('reading notifications', () => {
     await submitEvidence(student, assessment, student.studentProfileId!, 22);
 
     await ok(student.client.rpc('mark_notifications_read', { p_ids: null }));
-    const [studentNote] = await inbox(student);
+    const studentNotes = await inbox(student);
     const [parentNote] = await inbox(parent);
     const mine = await must(student.client.from('notifications').select('id').limit(1).single<{ id: string }>());
     await ok(student.client.rpc('archive_notification', { p_id: mine.id }));
 
-    expect(studentNote?.read_at).not.toBeNull();
+    expect(studentNotes.length).toBeGreaterThan(0);
+    expect(studentNotes.every((n) => n.read_at !== null)).toBe(true);
     expect(parentNote?.read_at).toBeNull();
-    expect((await inbox(student))[0]?.archived_at).not.toBeNull();
+    expect((await inbox(student)).find((n) => n.id === mine.id)).toMatchObject({ archived_at: expect.any(String) });
     expect(await must(teacher.client.from('notifications').select('id').eq('user_id', student.userId))).toEqual([]);
   });
 });

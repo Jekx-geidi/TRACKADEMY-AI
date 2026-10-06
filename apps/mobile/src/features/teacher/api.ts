@@ -514,8 +514,11 @@ export const NOTIFICATION_TYPES = [
   'SUBMISSION_REJECTED',
   'SCORE_UPDATED',
   'STUDENT_JOINED',
+  'STUDENT_LEFT',
   'TEACHER_REMINDER',
   'TEACHER_REPORT',
+  'ASSESSMENT_CREATED',
+  'CLASS_JOINED',
 ] as const;
 export type NotificationType = (typeof NOTIFICATION_TYPES)[number];
 
@@ -555,6 +558,8 @@ export async function listNotifications(q: {
   classId?: string;
   subjectId?: string;
   type?: NotificationType | '';
+  /** Any of these types (student filters group several). */
+  types?: NotificationType[];
   search?: string;
   from?: string;
   to?: string;
@@ -574,6 +579,7 @@ export async function listNotifications(q: {
   if (q.classId) query = query.eq('class_id', q.classId);
   if (q.subjectId) query = query.eq('subject_id', q.subjectId);
   if (q.type) query = query.eq('type', q.type);
+  if (q.types?.length) query = query.in('type', q.types);
   if (q.search) query = query.or(`title.ilike.%${q.search.replace(/[%,()]/g, ' ')}%,body.ilike.%${q.search.replace(/[%,()]/g, ' ')}%`);
   if (q.from) query = query.gte('created_at', q.from);
   if (q.to) query = query.lte('created_at', `${q.to}T23:59:59.999Z`);

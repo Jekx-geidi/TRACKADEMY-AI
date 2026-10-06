@@ -50,13 +50,17 @@ const TYPE_LABELS: Record<NotificationType, string> = {
   SUBMISSION_REJECTED: 'Submission rejected',
   SCORE_UPDATED: 'Score updated',
   STUDENT_JOINED: 'Student joined',
+  STUDENT_LEFT: 'Student left',
   TEACHER_REMINDER: 'Reminder',
   TEACHER_REPORT: 'Report',
+  ASSESSMENT_CREATED: 'New assessment',
+  CLASS_JOINED: 'Joined a class',
 };
-const TYPE_OPTIONS = NOTIFICATION_TYPES.map((t) => ({ value: t, label: TYPE_LABELS[t] }));
+// Teachers never receive ASSESSMENT_CREATED or CLASS_JOINED.
+const TYPE_OPTIONS = NOTIFICATION_TYPES.filter((t) => t !== 'ASSESSMENT_CREATED' && t !== 'CLASS_JOINED').map((t) => ({ value: t, label: TYPE_LABELS[t] }));
 
 /** Types that are about one student's work or membership, so a reminder or report makes sense. */
-const STUDENT_TYPES: readonly NotificationType[] = ['SUBMISSION_CREATED', 'SUBMISSION_VERIFIED', 'SUBMISSION_REJECTED', 'SCORE_UPDATED', 'STUDENT_JOINED'];
+const STUDENT_TYPES: readonly NotificationType[] = ['SUBMISSION_CREATED', 'SUBMISSION_VERIFIED', 'SUBMISSION_REJECTED', 'SCORE_UPDATED', 'STUDENT_JOINED', 'STUDENT_LEFT'];
 
 type Loaded = { kind: 'notifications'; page: Page<AppNotification> } | { kind: 'overdue'; rows: AttentionItem[] };
 
