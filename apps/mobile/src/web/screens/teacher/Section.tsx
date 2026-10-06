@@ -30,6 +30,7 @@ import { Segmented } from '../../ui/Segmented';
 import { TextField } from '../../ui/TextField';
 import { colors } from '../../ui/theme';
 import { CopyField } from './sections/CopyField';
+import { PrintJoinSlip } from '../../ui/JoinSlip';
 import { formatDateTime, friendly, MEMBER_TONE, plural } from './sections/util';
 import './sections.css';
 
@@ -153,6 +154,7 @@ function OverviewTab({ section }: { section: SectionOverview }) {
         <CopyField label="Class Join Code" value={section.join_code} big />
         <CopyField label="Invite Link" value={inviteLink(section.join_code)} />
       </Card>
+      <PrintJoinSlip className={section.name} teacher={section.adviser_name} joinCode={section.join_code} inviteLink={inviteLink(section.join_code)} />
 
       {reminding ? (
         <SendReminderDialog
