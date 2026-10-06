@@ -13,9 +13,9 @@ import { Spinner } from '../../ui/Spinner';
 import '../auth/auth.css';
 
 const ROLE_CARDS: { role: Role; title: string; body: string; icon: IconName }[] = [
-  { role: 'STUDENT', title: 'Student', body: 'Keep your schoolwork and scores in one place.', icon: 'book-outline' },
-  { role: 'PARENT', title: 'Parent / Guardian', body: "Follow your child's progress and papers.", icon: 'people-outline' },
-  { role: 'TEACHER', title: 'Teacher', body: 'Create assessments and manage your classes.', icon: 'easel-outline' },
+  { role: 'STUDENT', title: 'Student', body: 'Join your class and upload your own schoolwork and scores.', icon: 'book-outline' },
+  { role: 'PARENT', title: 'Parent / Guardian', body: "Monitor your child's academic records, missing work, and teacher updates.", icon: 'people-outline' },
+  { role: 'TEACHER', title: 'Teacher', body: 'Create classes, organize subjects, and review student evidence.', icon: 'easel-outline' },
 ];
 
 const NEXT_STEP = { STUDENT: '/setup/student', PARENT: '/setup/parent', TEACHER: '/setup/teacher' } as const;
