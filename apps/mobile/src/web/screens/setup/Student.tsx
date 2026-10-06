@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 
 import { authErrorMessage, ensureMyStudentProfile, joinClass } from '@/features/auth/api';
-import { joinCodeSchema } from '@/features/auth/schema';
 import { useFinishSetup } from '@/features/auth/useFinishSetup';
+import { classCodeSchema } from '@/features/classes/schema';
 
 import { AuthScreen } from '../../ui/AuthScreen';
 import { Button } from '../../ui/Button';
@@ -32,7 +32,7 @@ export default function StudentSetupScreen() {
   }, [attempt]);
 
   const join = async () => {
-    const parsed = joinCodeSchema.safeParse(classCode);
+    const parsed = classCodeSchema.safeParse(classCode);
     if (!parsed.success) {
       setClassError(parsed.error.issues[0]?.message);
       return;
@@ -88,11 +88,11 @@ export default function StudentSetupScreen() {
         <TextField
           label="Class code (optional)"
           icon="school-outline"
-          placeholder="6-character code from your teacher"
+          placeholder="6-digit code from your teacher"
           autoCapitalize="characters"
           autoCorrect="off"
           spellCheck={false}
-          maxLength={6}
+          maxLength={9}
           enterKeyHint="go"
           value={classCode}
           onChangeText={(v) => {

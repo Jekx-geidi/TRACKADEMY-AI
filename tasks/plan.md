@@ -14,9 +14,9 @@ Each task is one vertical slice: migration → API → UI, plus tests.
 
 ## Phase A — Class Workspace (PRD P0)
 
-### T1. Class Workspace details and a 6-digit class join code — IN PROGRESS
+### T1. Class Workspace details and a 6-digit class join code — DONE 2026-10-06
 PRD §7, §9.1, §16.
-- [ ] A teacher creates a workspace with these fields:
+- [x] A teacher creates a workspace with these fields:
   - grade level (1–10)
   - section
   - school year (`2026-2027`)
@@ -24,12 +24,16 @@ PRD §7, §9.1, §16.
   - adviser name (optional)
 
   The class name is built from them, e.g. "Grade 7 - St. Mark".
-- [ ] The server generates a **6-digit numeric** join code, unique among classes. Existing letter codes (e.g. `DEMO55`) keep working.
-- [ ] Only teachers can create one. Each field is validated by the server, and the form shows the same rules.
-- [ ] Students and teachers can join with the new numeric codes; the input no longer rejects 0 and 1.
-- [ ] Tests:
+- [x] The server generates a **6-digit numeric** join code, unique among classes. Existing letter codes (e.g. `DEMO55`) keep working.
+- [x] Only teachers can create one. Each field is validated by the server, and the form shows the same rules.
+- [x] Students and teachers can join with the new numeric codes; the input no longer rejects 0 and 1.
+- [x] Tests:
   - db: creation, code format, validation, role check.
   - unit: form schema and class code schema.
+- Notes:
+  - Migration `20261006000000_class_workspaces.sql`; tests in `apps/mobile/db-tests/classWorkspace.test.ts` and `src/features/classes/__tests__/schema.test.ts`. The teacher setup screen has the new form.
+  - **Not yet on the hosted project:** `supabase db push --linked`.
+  - Noticed, not fixed (outside T1): in dev, React StrictMode can call `ensure_my_student_profile` twice at once. One call then fails with 409 (duplicate student profile). The screen still works, because the cancelled call's error is ignored. Make the function race-safe (`on conflict do nothing` + re-select) in a later task.
 
 ### T2. Join a class with confirmation
 PRD §9.3.

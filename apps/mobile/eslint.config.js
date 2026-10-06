@@ -9,7 +9,7 @@ export default tseslint.config(
   { ignores: ['dist', 'node_modules', 'src/app', 'src/components', 'src/legacy', 'src/**/*.native.ts', 'src/**/*.native.tsx', 'src/lib/__tests__/sessionStorage.test.ts', 'public/sw.js'] },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
-    files: ['src/**/*.{ts,tsx}', 'vite.config.ts'],
+    files: ['src/**/*.{ts,tsx}', 'db-tests/**/*.ts', 'vite.config.ts', 'vitest.db.config.ts'],
     languageOptions: { ecmaVersion: 2022, globals: globals.browser },
     plugins: { 'react-hooks': reactHooks, 'react-refresh': reactRefresh },
     rules: {

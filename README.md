@@ -153,7 +153,8 @@ Checks:
 ```bash
 npm run typecheck
 npm run lint
-npm test               # Vitest
+npm test               # Vitest unit tests
+npm run test:db        # database rules (RLS + functions) against the LOCAL Supabase; needs `supabase start`
 ```
 
 ### Deploy the web app
