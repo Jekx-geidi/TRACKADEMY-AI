@@ -100,3 +100,28 @@ from (values
 ) as e (id, assessment_id, uploader, source, score, status, age)
 join public.assessments a on a.id = e.assessment_id
 on conflict (id) do nothing;
+
+-- ---------------------------------------------------------------------------------------
+-- PRD v0.5: the demo class becomes a Section with subjects, and the demo assessments live
+-- inside them with dates, so the teacher's Sections, Dashboard and Analytics have data.
+-- ---------------------------------------------------------------------------------------
+update public.classes
+set name = 'Grade 5 - Sampaguita', grade_level = 5, section = 'Sampaguita', school_year = '2026-2027',
+    school_name = 'Sample Elementary School', adviser_name = 'Ana Reyes'
+where id = '00000000-0000-4000-8000-0000000000c1';
+
+insert into public.subjects (id, class_id, teacher_user_id, name)
+values
+  ('00000000-0000-4000-8000-0000000000d1', '00000000-0000-4000-8000-0000000000c1', '00000000-0000-4000-8000-0000000000a1', 'Mathematics'),
+  ('00000000-0000-4000-8000-0000000000d2', '00000000-0000-4000-8000-0000000000c1', '00000000-0000-4000-8000-0000000000a1', 'Science'),
+  ('00000000-0000-4000-8000-0000000000d3', '00000000-0000-4000-8000-0000000000c1', '00000000-0000-4000-8000-0000000000a1', 'English')
+on conflict (id) do nothing;
+
+update public.assessments a
+set subject_id = v.subject_id, assessment_date = current_date - v.days_ago, due_date = current_date - v.days_ago + 3
+from (values
+  ('00000000-0000-4000-8000-000000000101'::uuid, '00000000-0000-4000-8000-0000000000d1'::uuid, 6),
+  ('00000000-0000-4000-8000-000000000102'::uuid, '00000000-0000-4000-8000-0000000000d2'::uuid, 4),
+  ('00000000-0000-4000-8000-000000000103'::uuid, '00000000-0000-4000-8000-0000000000d3'::uuid, 1)
+) as v (id, subject_id, days_ago)
+where a.id = v.id and a.subject_id is null;

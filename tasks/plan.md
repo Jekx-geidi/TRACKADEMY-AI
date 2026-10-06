@@ -22,7 +22,7 @@ The teacher app has exactly five tabs: **Dashboard · Sections · Notifications 
 - Status bands: 0% Not Started, 1–79% Needs Attention, 80–99% Almost Complete, 100% Complete. A text label is always shown with the colour.
 - Lists page 20 rows at a time.
 
-- [ ] **V1 Backend: sections, subjects, assessments in subjects.**
+- [x] **V1 Backend: sections, subjects, assessments in subjects.**
   - Section description and membership status (active, inactive, removed).
   - `subjects` table.
   - New assessment fields: subject, assessment date, due date, instructions.
@@ -30,17 +30,17 @@ The teacher app has exactly five tabs: **Dashboard · Sections · Notifications 
   - Filing-code lookup and evidence creation are scoped to the section's members (closes the "any user can look up any code" gap).
   - Teachers can read evidence photos for their own assessments.
   - Absorbs v0.3 T2, T5 and T6.
-- [ ] **V2 Backend: verification and audit trail.** Verify, reject (with a reason), correct a score and exempt; every action goes into `audit_logs`. Absorbs v0.3 T8.
-- [ ] **V3 Backend: notifications, reminders and reports.**
+- [x] **V2 Backend: verification and audit trail.** Verify, reject (with a reason), correct a score and exempt; every action goes into `audit_logs`. Absorbs v0.3 T8.
+- [x] **V3 Backend: notifications, reminders and reports.**
   - Events: submission created, verified and rejected; student joined; reminder; report.
   - Pass, Pending and Overdue are derived from the evidence and the due dates.
   - Absorbs v0.3 T9, T12 and T13.
-- [ ] **V4 Backend: teacher lists and analytics.**
+- [x] **V4 Backend: teacher lists and analytics.**
   - Lists: sections, section overview, subject assessments with completion, assessment students, and teacher students. Each has search, filters, sort and paging.
   - Dashboard overview and analytics.
   - Move, remove and mark inactive for students.
   - Teacher info on the profile.
-- [ ] **V5 Teacher shell and Sections.**
+- [x] **V5 Teacher shell and Sections.**
   - The five tabs.
   - Sections list.
   - Create Section, with the join code and an invite link.
@@ -49,10 +49,24 @@ The teacher app has exactly five tabs: **Dashboard · Sections · Notifications 
   - Subject workspace and assessment categories.
   - Create Assessment.
   - Assessment detail with the student submission list, View Evidence, Verify, Reject, Correct Score, Exempt and Send Reminder.
-- [ ] **V6 Notifications.** The teacher action center (All | Pass | Pending | Overdue, filters, mark read, archive, send reminder or report), plus the student and parent inbox.
-- [ ] **V7 Students.** List across sections; student detail with submissions, missing work, reports and reminders; edit, move, remove and mark inactive.
-- [ ] **V8 Dashboard.** Overview (status cards, Needs Attention, quick access, recent updates) and Analytics (section donuts, a Submission | Verification switch, subject analytics, drill-down).
-- [ ] **V9 Profile basics.** Account plus teacher information: school, department and teaching subjects.
+- [x] **V6 Notifications.** The teacher action center (All | Pass | Pending | Overdue, filters, mark read, archive, send reminder or report), plus the student and parent inbox.
+- [x] **V7 Students.** List across sections; student detail with submissions, missing work, reports and reminders; edit, move, remove and mark inactive.
+- [x] **V8 Dashboard.** Overview (status cards, Needs Attention, quick access, recent updates) and Analytics (section donuts, a Submission | Verification switch, subject analytics, drill-down).
+- [x] **V9 Profile basics.** Account plus teacher information: school, department and teaching subjects.
+
+**Status (2026-10-06):**
+- **Built:** V1–V9.
+- **Migrations:** `20261006010000_sections_subjects`, `20261006020000_verification_notifications`, `20261006030000_teacher_lists_analytics` and `20261006040000_teacher_followups`.
+- **Database tests:** 62 (`npm run test:db`).
+- **Browser:** checked end-to-end on the local stack.
+- **Not on the hosted project yet:** `supabase db push --linked`.
+
+**Known limits:**
+- Filter dropdowns list only the first 20 sections.
+- The Overdue view is computed from due dates, so it has no stored notifications.
+- Teachers can't edit a student's name yet.
+- Theme and Language preferences aren't built.
+- The default school year is a per-device setting only.
 
 ## Phase A — Class Workspace (PRD v0.3 P0)
 

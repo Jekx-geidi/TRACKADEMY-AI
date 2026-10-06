@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest';
 
-import { signInAs } from './clients';
+import { newAccount, signInAs } from './clients';
+
+// Fresh accounts, so these tests never add sections or memberships to the demo accounts.
+const teacherAccount = async () => (await newAccount('TEACHER')).client;
+const studentAccount = async () => (await newAccount('STUDENT')).client;
 
 const workspace = {
   p_grade_level: 7,
@@ -12,7 +16,7 @@ const workspace = {
 
 describe('create_class_workspace', () => {
   it('creates a workspace named from grade and section, with a 6-digit join code', async () => {
-    const teacher = await signInAs('teacher');
+    const teacher = await teacherAccount();
 
     const { data, error } = await teacher.rpc('create_class_workspace', workspace).single<Record<string, unknown>>();
 
@@ -29,7 +33,7 @@ describe('create_class_workspace', () => {
   });
 
   it('makes the teacher a member, so they can read the new class', async () => {
-    const teacher = await signInAs('teacher');
+    const teacher = await teacherAccount();
     const { data: created } = await teacher.rpc('create_class_workspace', workspace).single<{ id: string }>();
 
     const { data } = await teacher.from('classes').select('id, grade_level, section, school_year').eq('id', created!.id).single();
@@ -38,7 +42,7 @@ describe('create_class_workspace', () => {
   });
 
   it('gives every workspace a different join code', async () => {
-    const teacher = await signInAs('teacher');
+    const teacher = await teacherAccount();
     const codes = new Set<string>();
     for (let i = 0; i < 5; i++) {
       const { data } = await teacher.rpc('create_class_workspace', workspace).single<{ join_code: string }>();
@@ -48,7 +52,7 @@ describe('create_class_workspace', () => {
   });
 
   it('trims the text fields and leaves optional fields empty when blank', async () => {
-    const teacher = await signInAs('teacher');
+    const teacher = await teacherAccount();
 
     const { data } = await teacher
       .rpc('create_class_workspace', { ...workspace, p_section: '  Sampaguita  ', p_school_name: '  ', p_adviser_name: null })
@@ -64,7 +68,7 @@ describe('create_class_workspace', () => {
     ['school year in the wrong format', { p_school_year: '2026' }, 'School year must look like 2026-2027.'],
     ['school year that is not two consecutive years', { p_school_year: '2026-2028' }, 'School year must look like 2026-2027.'],
   ])('rejects a %s', async (_case, change, message) => {
-    const teacher = await signInAs('teacher');
+    const teacher = await teacherAccount();
 
     const { error } = await teacher.rpc('create_class_workspace', { ...workspace, ...change });
 
@@ -72,7 +76,7 @@ describe('create_class_workspace', () => {
   });
 
   it('refuses students', async () => {
-    const student = await signInAs('student');
+    const student = await studentAccount();
 
     const { error } = await student.rpc('create_class_workspace', workspace);
 
@@ -82,8 +86,8 @@ describe('create_class_workspace', () => {
 
 describe('joining with a class join code', () => {
   it('lets a student join a new workspace with its numeric code', async () => {
-    const teacher = await signInAs('teacher');
-    const student = await signInAs('student');
+    const teacher = await teacherAccount();
+    const student = await studentAccount();
     const { data: created } = await teacher.rpc('create_class_workspace', workspace).single<{ id: string; join_code: string }>();
 
     const { data, error } = await student.rpc('join_class', { p_join_code: created!.join_code }).single<{ id: string }>();
@@ -98,6 +102,6 @@ describe('joining with a class join code', () => {
     const { data, error } = await student.rpc('join_class', { p_join_code: 'demo55' }).single<{ name: string }>();
 
     expect(error).toBeNull();
-    expect(data?.name).toBe('Grade 5 Sampaguita');
+    expect(data?.name).toBe('Grade 5 - Sampaguita');
   });
 });

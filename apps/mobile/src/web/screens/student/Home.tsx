@@ -1,12 +1,14 @@
 import type { CSSProperties } from 'react';
-import { useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 
 import { useAuth } from '@/features/auth/AuthProvider';
 import { loadStudentOverview } from '@/features/dashboards/loaders';
 import { formatPercent, isPending, summarizeBySubject } from '@/features/evidence/summary';
+import { unreadNotificationCount } from '@/features/teacher/api';
 import { useLoad } from '@/lib/useLoad';
 
 import { Button } from '../../ui/Button';
+import { Icon } from '../../ui/Icon';
 import { HeroCard } from '../../ui/Card';
 import { EmptyCard, firstName, greeting, ListCard, LoadGate, PageHeader, RecordRow, StatRow, StatTile } from '../../ui/Dashboard';
 import { Screen, SectionTitle } from '../../ui/Screen';
@@ -30,6 +32,7 @@ export default function StudentHome() {
   return (
     <Screen tabs>
       <PageHeader eyebrow={`${greeting()}, ${firstName(name)}!`} title={name} subtitle={classLine || 'No class joined yet'} />
+      <InboxLink />
 
       <HeroCard>
         <p style={styles.heroEyebrow}>Got a checked paper?</p>
@@ -115,3 +118,15 @@ const styles = {
   subjectAvg: { fontSize: 26, fontWeight: 800, color: colors.heading },
   subjectMeta: { fontSize: 13, color: colors.textMuted },
 } satisfies Record<string, CSSProperties>;
+
+/** Opens the Student Inbox (PRD v0.3 §23); it isn't a tab, so Home links to it. */
+function InboxLink() {
+  const { data: unread } = useLoad(unreadNotificationCount);
+  return (
+    <Link className="inbox-link" to="/student/inbox">
+      <Icon name="notifications-outline" size={20} />
+      <span>Inbox</span>
+      {unread ? <span className="inbox-count">{unread} new</span> : null}
+    </Link>
+  );
+}

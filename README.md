@@ -30,7 +30,12 @@ Supabase              Postgres + Auth + private Storage (RLS on every table)
 - Each role has its own tabs, and only its own tabs. Every role's centre tab is the emphasised one.
   - **Student** (`/student`): Home, Subjects, **Upload**, Records, Profile.
   - **Parent** (`/parent`): Home, Child, **Scan**, Inbox, Profile.
-  - **Teacher** (`/teacher`): Home, Subjects, **Create**, Audit, Profile.
+  - **Teacher** (`/teacher`), exactly five actions as PRD v0.5 requires:
+    - **Dashboard:** Overview | Analytics.
+    - **Sections:** Section → Subjects → Assessments → Submissions.
+    - **Notifications:** the action center: All | Pass | Pending | Overdue.
+    - **Students:** list, detail, move, inactive, remove.
+    - **Profile.**
 - Upload flow:
   1. Photo.
   2. OCR looks for the code. This is assistive only.
@@ -40,7 +45,13 @@ Supabase              Postgres + Auth + private Storage (RLS on every table)
   
   Manual code entry is always available.
 - **Profile** (every role): change name, profile photo, email (confirmed by a link sent to the new address) and password (asks for the current one). Photos are stored privately; only the owner can see them.
-- Teacher creates an assessment (Subject → Type → Title → Quarter → Total) and gets a server-generated 5-digit code.
+- **Sections** have a 6-digit join code and an invite link (`/join/<code>`). Students see the section before confirming the join.
+- **Assessments:**
+  - A teacher creates assessments inside a section's subject: type, title, quarter, total, dates and instructions. Each gets a server-generated 5-digit filing code.
+  - A filing code only works for members of that section and their parents.
+- **Reviewing papers:** teachers verify, reject (with a reason), correct scores and exempt students. Every action is logged in `audit_logs`.
+- **Completion:** submitted ÷ required students; exempt students are not counted as required.
+- **Notifications:** submissions, reviews, reminders and reports notify the right teacher, student and parents. Each user reads only their own.
 - Dashboards read real data:
   - Student: recent scores, pending verification and subject averages.
   - Parent: new scores, needs attention and recent records.
@@ -48,7 +59,6 @@ Supabase              Postgres + Auth + private Storage (RLS on every table)
 
 ### Not built yet
 
-- **Teacher verify/reject.** Papers stay "Waiting for teacher".
 - **"Missing work" and "missing students".** Assessments aren't linked to classes yet, so these show empty states.
 - **Teacher reports, reminders and the Inbox.** These are placeholders.
 - **Notifications.**

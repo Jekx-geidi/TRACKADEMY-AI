@@ -25,15 +25,23 @@ import SetupRoleScreen from './screens/setup/Role';
 import SetupStudentScreen from './screens/setup/Student';
 import SetupTeacherScreen from './screens/setup/Teacher';
 import StudentHomeScreen from './screens/student/Home';
+import StudentInboxScreen from './screens/student/Inbox';
 import StudentProfileScreen from './screens/student/Profile';
 import StudentRecordsScreen from './screens/student/Records';
 import StudentSubjectsScreen from './screens/student/Subjects';
 import StudentUploadScreen from './screens/student/Upload';
-import TeacherAuditScreen from './screens/teacher/Audit';
-import TeacherCreateScreen from './screens/teacher/Create';
-import TeacherHomeScreen from './screens/teacher/Home';
+import JoinScreen from './screens/join/Join';
+import { usePendingJoin } from './screens/join/usePendingJoin';
+import TeacherAssessmentScreen from './screens/teacher/Assessment';
+import TeacherDashboardScreen from './screens/teacher/Dashboard';
+import TeacherNotificationsScreen from './screens/teacher/Notifications';
 import TeacherProfileScreen from './screens/teacher/Profile';
-import TeacherSubjectsScreen from './screens/teacher/Subjects';
+import TeacherSectionScreen from './screens/teacher/Section';
+import TeacherSectionsScreen from './screens/teacher/Sections';
+import TeacherStudentScreen from './screens/teacher/Student';
+import TeacherStudentsScreen from './screens/teacher/Students';
+import TeacherSubjectScreen from './screens/teacher/Subject';
+import { useTeacherBadge } from './screens/teacher/useTeacherBadge';
 import { RoleTabBar, type TabSpec } from './ui/RoleTabBar';
 import { Spinner } from './ui/Spinner';
 
@@ -53,13 +61,20 @@ const PARENT_TABS: TabSpec[] = [
   { path: 'profile', label: 'Profile', icon: 'person', iconOutline: 'person-outline' },
 ];
 
+// Exactly five teacher actions (PRD v0.5 §2, §47): everything else lives under one of them.
 const TEACHER_TABS: TabSpec[] = [
-  { path: '', label: 'Home', icon: 'home', iconOutline: 'home-outline' },
-  { path: 'subjects', label: 'Subjects', icon: 'library', iconOutline: 'library-outline' },
-  { path: 'create', label: 'Create', icon: 'add', iconOutline: 'add-outline', center: true },
-  { path: 'audit', label: 'Audit', icon: 'shield-checkmark', iconOutline: 'shield-checkmark-outline' },
+  { path: '', label: 'Dashboard', icon: 'pulse', iconOutline: 'pulse-outline' },
+  { path: 'sections', label: 'Sections', icon: 'folder', iconOutline: 'folder-outline' },
+  { path: 'notifications', label: 'Notifications', icon: 'notifications', iconOutline: 'notifications-outline' },
+  { path: 'students', label: 'Students', icon: 'people', iconOutline: 'people-outline' },
   { path: 'profile', label: 'Profile', icon: 'person', iconOutline: 'person-outline' },
 ];
+
+function TeacherTabs() {
+  const unread = useTeacherBadge();
+  const tabs = TEACHER_TABS.map((t) => (t.path === 'notifications' ? { ...t, badge: unread } : t));
+  return <Tabs base="/teacher" tabs={tabs} />;
+}
 
 export function App() {
   return (
@@ -93,6 +108,8 @@ function Tabs({ base, tabs }: { base: string; tabs: TabSpec[] }) {
  * The server enforces the same rules with RLS; these only decide which screens show.
  */
 function AppRoutes() {
+  // After signing in from an invite link, continue to that join screen.
+  usePendingJoin();
   const { ready, session, profile } = useAuth();
 
   if (!ready) {
@@ -133,6 +150,8 @@ function AppRoutes() {
           <Route path="upload" element={<StudentUploadScreen />} />
           <Route path="records" element={<StudentRecordsScreen />} />
           <Route path="profile" element={<StudentProfileScreen />} />
+          {/* Not a tab: opened from the bell on Student Home (PRD v0.3 §23). */}
+          <Route path="inbox" element={<StudentInboxScreen />} />
         </Route>
       </Route>
 
@@ -154,11 +173,16 @@ function AppRoutes() {
       </Route>
 
       <Route element={<Allow allowed={role === 'TEACHER'} home={home} />}>
-        <Route path="/teacher" element={<Tabs base="/teacher" tabs={TEACHER_TABS} />}>
-          <Route index element={<TeacherHomeScreen />} />
-          <Route path="subjects" element={<TeacherSubjectsScreen />} />
-          <Route path="create" element={<TeacherCreateScreen />} />
-          <Route path="audit" element={<TeacherAuditScreen />} />
+        <Route path="/teacher" element={<TeacherTabs />}>
+          <Route index element={<TeacherDashboardScreen />} />
+          <Route path="dashboard" element={<Navigate to="/teacher" replace />} />
+          <Route path="sections" element={<TeacherSectionsScreen />} />
+          <Route path="sections/:sectionId" element={<TeacherSectionScreen />} />
+          <Route path="subjects/:subjectId" element={<TeacherSubjectScreen />} />
+          <Route path="assessments/:assessmentId" element={<TeacherAssessmentScreen />} />
+          <Route path="notifications" element={<TeacherNotificationsScreen />} />
+          <Route path="students" element={<TeacherStudentsScreen />} />
+          <Route path="students/:studentId" element={<TeacherStudentScreen />} />
           <Route path="profile" element={<TeacherProfileScreen />} />
         </Route>
       </Route>
@@ -170,6 +194,9 @@ function AppRoutes() {
         <Route path="/scan/manual" element={<ScanManualScreen />} />
         <Route path="/scan/saved" element={<ScanSavedScreen />} />
       </Route>
+
+      {/* Invite links (PRD v0.3 §9.2): anyone can open one; the screen handles sign-in and roles. */}
+      <Route path="/join/:code" element={<JoinScreen />} />
 
       <Route path="*" element={<Navigate to={home} replace />} />
     </Routes>

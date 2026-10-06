@@ -1,0 +1,203 @@
+/* Teacher Dashboard (PRD v0.5 §3–§5, §37–§40): bits not covered by styles.css. */
+
+.dash-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: calc(var(--sm) + 2px);
+}
+
+.dash-stat {
+  background: var(--surface);
+  border-radius: calc(var(--r-lg) - 4px);
+  padding: calc(var(--sm) + 4px);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  box-shadow: var(--shadow);
+}
+
+.dash-stat-value {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--heading);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Urgent numbers carry their tone; the label and badge say it in words too. */
+.dash-stat.urgent {
+  background: var(--tone-soft);
+}
+
+.dash-stat.urgent .dash-stat-value {
+  color: var(--tone);
+}
+
+.dash-stat-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.dash-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sm);
+  padding: calc(var(--sm) + 4px) 0;
+}
+
+.dash-item + .dash-item {
+  border-top: 1px solid var(--border);
+}
+
+.dash-item-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--heading);
+}
+
+.dash-item-meta {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.dash-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.dash-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sm);
+}
+
+/* Smaller buttons inside list rows; still a comfortable touch target. */
+.dash-actions .btn {
+  width: auto;
+  flex: 1 1 auto;
+  min-height: 44px;
+  padding: 0 var(--md);
+  font-size: 14px;
+}
+
+.dash-tiles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: calc(var(--sm) + 2px);
+}
+
+.dash-tiles .icon-tile {
+  min-height: 108px;
+}
+
+.dash-update {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: calc(var(--sm) + 2px) 0;
+}
+
+.dash-update + .dash-update {
+  border-top: 1px solid var(--border);
+}
+
+.dash-update.unread .dash-item-title::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+.dash-link {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--heading);
+}
+
+.dash-donuts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--md) var(--sm);
+  justify-items: center;
+}
+
+.dash-numbers {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--sm);
+}
+
+.dash-number {
+  display: flex;
+  flex-direction: column;
+}
+
+.dash-number strong {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--heading);
+  font-variant-numeric: tabular-nums;
+}
+
+.dash-number span {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.dash-number.urgent strong {
+  color: var(--tone);
+}
+
+.dash-bar-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dash-bar-label {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--sm);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.dash-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--sm);
+}
+
+.dash-drill-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--sm);
+  min-height: 56px;
+  padding: var(--sm) 0;
+  text-decoration: none;
+  color: inherit;
+}
+
+.dash-drill-row + .dash-drill-row {
+  border-top: 1px solid var(--border);
+}
+
+@media (min-width: 480px) {
+  .dash-stats,
+  .dash-tiles {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .dash-donuts {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

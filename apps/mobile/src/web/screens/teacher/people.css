@@ -1,0 +1,112 @@
+/* Teacher Notifications, Students and Student Detail (PRD v0.5 §17–§27). */
+
+/* Date inputs in the Filter panel, matching .filter-select select. */
+.filter-select input {
+  min-height: 40px;
+  border-radius: var(--r-sm);
+  border: 1.5px solid var(--border);
+  background: var(--input-fill);
+  padding: 0 var(--sm);
+  font: inherit;
+  font-size: 15px;
+  color: var(--text);
+}
+
+.list-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: calc(var(--sm) + 4px);
+}
+
+/* A tappable person or item row inside a .list-card. */
+.person-row {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--sm) + 4px);
+  min-height: 64px;
+  padding: calc(var(--sm) + 2px) 0;
+  color: var(--heading);
+  text-decoration: none;
+}
+
+.person-row + .person-row,
+.list-item + .list-item {
+  border-top: 1px solid var(--border);
+}
+
+.person-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.person-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--heading);
+}
+
+.person-meta {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.person-row .chevron {
+  flex: none;
+  color: var(--muted);
+}
+
+/* A non-link row with text on top and actions below. */
+.list-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sm);
+  padding: calc(var(--sm) + 4px) 0;
+}
+
+.list-item-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--sm);
+}
+
+.row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sm);
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.invite-box {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sm);
+  padding: var(--md);
+  border-radius: var(--r-md);
+  background: var(--input-fill);
+}
+
+.invite-code {
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: 6px;
+  color: var(--heading);
+  font-variant-numeric: tabular-nums;
+}
+
+.invite-link {
+  font-size: 14px;
+  color: var(--heading);
+  overflow-wrap: anywhere;
+}

@@ -1304,3 +1304,321 @@ button {
   line-height: 21px;
   color: var(--muted);
 }
+
+/* ---------- Lists: search, filters, pagination (PRD v0.5 §33–§35) ---------- */
+
+.list-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sm);
+}
+
+.list-toolbar-row {
+  display: flex;
+  gap: var(--sm);
+  align-items: center;
+}
+
+.search-input {
+  flex: 1;
+  min-width: 0;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  gap: var(--sm);
+  padding: 0 var(--md);
+  border-radius: var(--r-md);
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  color: var(--muted);
+}
+
+.search-input:focus-within {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.search-input input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  font-size: 16px;
+  color: var(--text);
+}
+
+.filter-toggle {
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 var(--md);
+  border-radius: var(--r-md);
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--heading);
+  white-space: nowrap;
+}
+
+.filter-toggle.open {
+  border-color: var(--accent);
+}
+
+.list-toolbar-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sm);
+  padding: var(--sm) var(--md);
+  border-radius: var(--r-md);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.filter-select {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1 1 140px;
+  min-width: 0;
+}
+
+.filter-select label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.filter-select select {
+  min-height: 40px;
+  border-radius: var(--r-sm);
+  border: 1.5px solid var(--border);
+  background: var(--input-fill);
+  padding: 0 var(--sm);
+  font-size: 15px;
+  color: var(--text);
+}
+
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sm);
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.pagination-buttons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pagination-buttons button {
+  min-width: 40px;
+  min-height: 40px;
+  padding: 0 10px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-weight: 700;
+  color: var(--heading);
+}
+
+.pagination-buttons button:disabled {
+  opacity: 0.4;
+}
+
+.pagination-buttons button[aria-current='page'] {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: var(--primary-text);
+}
+
+.pagination-number {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Phones: Previous / Next only (§35). */
+@media (max-width: 599px) {
+  .pagination-number {
+    display: none;
+  }
+}
+
+@media (min-width: 600px) {
+  .pagination-word {
+    display: none;
+  }
+}
+
+/* ---------- Status, charts (PRD v0.5 §5, §37, §39) ---------- */
+
+.tone-neutral {
+  --tone: var(--muted);
+  --tone-soft: var(--input-fill);
+}
+
+.tone-danger {
+  --tone: var(--danger);
+  --tone-soft: var(--danger-soft);
+}
+
+.tone-warning {
+  --tone: var(--warning);
+  --tone-soft: var(--warning-soft);
+}
+
+.tone-success {
+  --tone: var(--success);
+  --tone-soft: var(--success-soft);
+}
+
+.status-badge {
+  display: inline-block;
+  align-self: flex-start;
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--tone);
+  background: var(--tone-soft);
+  white-space: nowrap;
+}
+
+.donut {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  background: none;
+  padding: 0;
+  color: inherit;
+}
+
+.donut-arc {
+  stroke: var(--tone);
+}
+
+.donut-center {
+  font-size: 16px;
+  font-weight: 800;
+  fill: var(--heading);
+}
+
+.donut-percent {
+  font-size: 12px;
+  font-weight: 700;
+  fill: var(--muted);
+}
+
+.donut-caption {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--heading);
+  text-align: center;
+}
+
+.progress-bar {
+  height: 8px;
+  border-radius: 4px;
+  background: var(--input-fill);
+  overflow: hidden;
+}
+
+.progress-bar span {
+  display: block;
+  height: 100%;
+  border-radius: 4px;
+  background: var(--tone);
+}
+
+/* ---------- Forms ---------- */
+
+.plain-textarea {
+  width: 100%;
+  border-radius: var(--r-md);
+  border: 1.5px solid var(--border);
+  background: var(--input-fill);
+  padding: var(--sm) var(--md);
+  font: inherit;
+  font-size: 16px;
+  color: var(--text);
+  resize: vertical;
+}
+
+.plain-textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: var(--surface);
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sm);
+  font-size: 15px;
+  color: var(--heading);
+}
+
+.checkbox-row input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--primary);
+}
+
+/* ---------- Tab badge (unread notifications) ---------- */
+
+.tab-icon {
+  position: relative;
+  display: inline-flex;
+}
+
+.tab-badge {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background: var(--danger);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 18px;
+  text-align: center;
+}
+
+.inbox-link {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sm);
+  min-height: 44px;
+  padding: 0 var(--md);
+  border-radius: 999px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  text-decoration: none;
+  font-weight: 700;
+  color: var(--heading);
+}
+
+.inbox-count {
+  border-radius: 999px;
+  padding: 2px 8px;
+  background: var(--danger-soft);
+  color: var(--danger);
+  font-size: 12px;
+}

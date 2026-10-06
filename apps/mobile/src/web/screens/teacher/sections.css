@@ -1,0 +1,333 @@
+/* Teacher Sections area (Sections, Section, Subject, Assessment). Builds on styles.css tokens. */
+
+/* ---------- Page header for nested pages ---------- */
+
+.sx-head {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sx-head h2 {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--heading);
+}
+
+.sx-head p {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* ---------- Clickable cards and list rows ---------- */
+
+.sx-card-link {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--sm) + 4px);
+  min-height: 72px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.sx-card-link:active {
+  opacity: 0.85;
+}
+
+.sx-list {
+  gap: 0;
+  padding-top: var(--xs);
+  padding-bottom: var(--xs);
+}
+
+.sx-row {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--sm) + 4px);
+  min-height: 64px;
+  padding: calc(var(--sm) + 2px) 0;
+  text-decoration: none;
+  color: inherit;
+}
+
+.sx-row + .sx-row,
+.sx-row + .sx-item,
+.sx-item + .sx-item,
+.sx-item + .sx-row {
+  border-top: 1px solid var(--border);
+}
+
+.sx-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sm);
+  padding: calc(var(--sm) + 4px) 0;
+}
+
+.sx-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sx-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--heading);
+}
+
+.sx-meta {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.sx-side {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.sx-side .status-badge {
+  align-self: flex-end;
+}
+
+.sx-big-number {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--heading);
+  font-variant-numeric: tabular-nums;
+}
+
+.sx-chevron {
+  flex: none;
+  color: var(--muted);
+}
+
+.sx-group-title {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: var(--xs);
+}
+
+/* ---------- Copy fields (join code, invite link) ---------- */
+
+.sx-copy {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--sm) + 4px);
+}
+
+.sx-copy + .sx-copy {
+  border-top: 1px solid var(--border);
+  padding-top: calc(var(--sm) + 4px);
+}
+
+.sx-copy-text {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sx-copy-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.sx-copy-value {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--heading);
+  overflow-wrap: anywhere;
+  user-select: all;
+}
+
+.sx-copy-value.big {
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: 4px;
+  font-variant-numeric: tabular-nums;
+}
+
+.sx-copy-note {
+  font-size: 13px;
+  color: var(--danger);
+}
+
+.sx-copy-btn {
+  flex: none;
+  min-height: 48px;
+  min-width: 96px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0 var(--md);
+  border-radius: var(--r-md);
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--heading);
+}
+
+.sx-copy-btn.copied {
+  border-color: var(--success-soft);
+  background: var(--success-soft);
+  color: var(--success);
+}
+
+/* ---------- Filing code ---------- */
+
+.sx-code {
+  font-size: 44px;
+  font-weight: 800;
+  letter-spacing: 8px;
+  color: var(--heading);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  user-select: all;
+}
+
+.sx-code-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--xs);
+  padding: var(--md);
+  border-radius: var(--r-md);
+  background: var(--accent-soft);
+}
+
+.sx-code-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.sx-steps {
+  margin: 0;
+  padding-left: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 15px;
+  color: var(--heading);
+}
+
+/* ---------- Metrics ---------- */
+
+.sx-donuts {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: var(--md);
+}
+
+.sx-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sx-metric-row {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--sm);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--heading);
+}
+
+.sx-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sm) var(--md);
+}
+
+.sx-fact {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sx-fact span:first-child {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+.sx-fact span:last-child {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--heading);
+}
+
+/* ---------- Row actions ---------- */
+
+.sx-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sm);
+}
+
+.sx-action {
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 calc(var(--sm) + 4px);
+  border-radius: var(--r-sm);
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--heading);
+}
+
+.sx-action:disabled {
+  opacity: 0.5;
+}
+
+.sx-action.good {
+  border-color: var(--success-soft);
+  background: var(--success-soft);
+  color: var(--success);
+}
+
+.sx-action.bad {
+  border-color: var(--danger-soft);
+  color: var(--danger);
+}
+
+/* ---------- Forms ---------- */
+
+.sx-date {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sx-evidence-img {
+  width: 100%;
+  max-height: 60vh;
+  object-fit: contain;
+  border-radius: var(--r-md);
+  background: var(--input-fill);
+}
+
+.sx-counter {
+  font-size: 12px;
+  color: var(--muted);
+  text-align: right;
+}
